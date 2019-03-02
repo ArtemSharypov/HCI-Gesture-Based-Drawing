@@ -1,10 +1,7 @@
 package com.omimi.gesturebaseddrawing
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 
@@ -56,7 +53,15 @@ class ShapeInterpretationView @JvmOverloads constructor(
     private fun drawTriangle(triangle: Shape.Triangle) {
         shapePaint.color = triangle.color
 
-        //todo
+        var trianglePath = Path()
+        trianglePath.fillType = Path.FillType.EVEN_ODD
+
+        trianglePath.moveTo(triangle.minX, triangle.minY)
+        trianglePath.lineTo(triangle.maxX, triangle.minY)
+        trianglePath.lineTo(triangle.topPointX, triangle.topPointY)
+        trianglePath.close()
+
+        drawingCanvas.drawPath(trianglePath, shapePaint)
     }
 
     private fun drawCircle(circle: Shape.Circle) {

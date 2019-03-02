@@ -129,11 +129,11 @@ class DrawShapesView @JvmOverloads constructor(
             square.right = newX
         }
 
-        if(newY < square.bottom) {
+        if(newY > square.bottom) {
             square.bottom = newY
         }
 
-        if(newY > square.top) {
+        if(newY < square.top) {
             square.top = newY
         }
     }
@@ -147,11 +147,11 @@ class DrawShapesView @JvmOverloads constructor(
             triangle.maxX = newX
         }
 
-        if(newY < triangle.minY) {
+        if(newY > triangle.minY) {
             triangle.minY = newY
         }
 
-        if(newY > triangle.topPointY) {
+        if(newY < triangle.topPointY) {
             triangle.topPointY = newY
             triangle.topPointX = newX
         }
@@ -166,11 +166,11 @@ class DrawShapesView @JvmOverloads constructor(
             circle.right = newX
         }
 
-        if(newY < circle.bottom) {
+        if(newY > circle.bottom) {
             circle.bottom = newY
         }
 
-        if(newY > circle.top) {
+        if(newY < circle.top) {
             circle.top = newY
         }
     }
