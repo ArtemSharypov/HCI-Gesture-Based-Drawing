@@ -1,6 +1,5 @@
 package com.omimi.gesturebaseddrawing
 
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -9,7 +8,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), ShapeDrawnCallback {
+class MainActivity : AppCompatActivity(), ShapeDrawnCallback, ShapeDeletedCallback {
     private var currDrawingShapeType: DrawingShapeType = DrawingShapeType.DrawingLine
     private var currShapeColor: ShapeColor = ShapeColor.Blue
     private var paletteVisible = true
@@ -24,6 +23,8 @@ class MainActivity : AppCompatActivity(), ShapeDrawnCallback {
 
         dsv_user_draw_input.setShapeDrawnCallback(this)
         dsv_user_draw_input.changeDrawingShapeType(currDrawingShapeType)
+
+        shape_interpretation_view.setShapeDeletedCallback(this)
 
         setSupportActionBar(toolbar)
 
@@ -133,6 +134,10 @@ class MainActivity : AppCompatActivity(), ShapeDrawnCallback {
         }
 
         shape_interpretation_view.addShape(shape)
+    }
+
+    override fun shapeDeletedAtIndex(index: Int) {
+        dsv_user_draw_input.deleteShapeAtIndex(index)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

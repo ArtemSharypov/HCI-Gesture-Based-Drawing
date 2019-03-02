@@ -193,4 +193,13 @@ class DrawShapesView @JvmOverloads constructor(
     fun setShapeDrawnCallback(shapeDrawnCallback: ShapeDrawnCallback) {
         this.shapeDrawnCallback = shapeDrawnCallback
     }
+
+    fun deleteShapeAtIndex(index: Int) {
+        if(index < shapesDrawn.size) {
+            shapesDrawn.removeAt(index)
+
+            canvasBitmap.eraseColor(Color.TRANSPARENT)
+            invalidate()
+        }
+    }
 }

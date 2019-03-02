@@ -3,21 +3,32 @@ package com.omimi.gesturebaseddrawing
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.Log
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
 
 class ShapeInterpretationView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr){
+) : View(context, attrs, defStyleAttr) {
     private val bitmapPaint = Paint(Paint.DITHER_FLAG)
     private lateinit var canvasBitmap: Bitmap
     private lateinit var drawingCanvas: Canvas
     private var shapes = mutableListOf<Shape>()
     private var shapePaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private var gestureListener = DoubleClickGestureListener()
+    private var gestureDetector = GestureDetector(context, gestureListener)
+    private lateinit var shapeDeletedCallback: ShapeDeletedCallback
 
     init {
         shapePaint.color = Color.BLUE
         shapePaint.style = Paint.Style.FILL
         shapePaint.strokeWidth = 8f
+    }
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        gestureDetector.onTouchEvent(event)
+        return true
     }
 
     fun addShape(shape: Shape) {
@@ -81,5 +92,31 @@ class ShapeInterpretationView @JvmOverloads constructor(
 
         canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         drawingCanvas = Canvas(canvasBitmap)
+    }
+
+    private fun deleteGestureAt(x: Float, y:Float) {
+        for(i in shapes.size-1 downTo 0) {
+            if(shapes[i].pointInShape(x, y)) {
+                shapeDeletedCallback.shapeDeletedAtIndex(i)
+                shapes.removeAt(i)
+                break
+            }
+        }
+
+        canvasBitmap.eraseColor(Color.TRANSPARENT)
+        invalidate()
+    }
+
+    fun setShapeDeletedCallback(shapeDeletedCallback: ShapeDeletedCallback) {
+        this.shapeDeletedCallback = shapeDeletedCallback
+    }
+
+    inner class DoubleClickGestureListener : GestureDetector.SimpleOnGestureListener() {
+        override fun onDoubleTap(event: MotionEvent): Boolean {
+            Log.d("TEST", "onDoubleTap??")
+            deleteGestureAt(event.x, event.y)
+
+            return super.onDoubleTap(event)
+        }
     }
 }
