@@ -10,4 +10,8 @@
     <string name="green">Green</string>
     <string name="color">Color</string>
     <string name="shape">Shape</string>
+    <string name="drawing">Drawing</string>
+    <string name="interpretation">Interpretation</string>
+    <string name="show_palette">Show Palette</string>
+    <string name="hide_palette">Hide Palette</string>
 </resources>
