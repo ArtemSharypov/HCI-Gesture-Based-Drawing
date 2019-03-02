@@ -1,5 +1,6 @@
 package com.omimi.gesturebaseddrawing
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity(), ShapeDrawnCallback {
 
         btn_black.setOnClickListener { shapeColorChanged(ShapeColor.Black) }
 
-        btn_orange.setOnClickListener { shapeColorChanged(ShapeColor.Orange) }
+        btn_red.setOnClickListener { shapeColorChanged(ShapeColor.Red) }
 
         btn_green.setOnClickListener { shapeColorChanged(ShapeColor.Green) }
     }
@@ -82,10 +83,8 @@ class MainActivity : AppCompatActivity(), ShapeDrawnCallback {
 
             ShapeColor.Green -> btn_green.backgroundTintList = ContextCompat.getColorStateList(this, R.color.selectedShapeType)
 
-            ShapeColor.Orange -> btn_orange.backgroundTintList = ContextCompat.getColorStateList(this, R.color.selectedShapeType)
+            ShapeColor.Red -> btn_red.backgroundTintList = ContextCompat.getColorStateList(this, R.color.selectedShapeType)
         }
-
-        //todo add function call here for interpretation view to change its color using currShapeColor
     }
 
     private fun resetSelectedShapeTypeBtn() {
@@ -108,12 +107,32 @@ class MainActivity : AppCompatActivity(), ShapeDrawnCallback {
 
             ShapeColor.Green -> btn_green.backgroundTintList = ContextCompat.getColorStateList(this, R.color.defaultShapeType)
 
-            ShapeColor.Orange -> btn_orange.backgroundTintList = ContextCompat.getColorStateList(this, R.color.defaultShapeType)
+            ShapeColor.Red -> btn_red.backgroundTintList = ContextCompat.getColorStateList(this, R.color.defaultShapeType)
         }
     }
 
     override fun shapeDrawn(shape: Shape) {
-        //todo just pass this shape into the other view once created
+        var color = when(currShapeColor) {
+            ShapeColor.Blue -> ShapeColor.Blue.color
+
+            ShapeColor.Black -> ShapeColor.Black.color
+
+            ShapeColor.Green -> ShapeColor.Green.color
+
+            ShapeColor.Red -> ShapeColor.Red.color
+        }
+
+        when(shape) {
+            is Shape.Line -> shape.color = color
+
+            is Shape.Circle -> shape.color = color
+
+            is Shape.Square -> shape.color = color
+
+            is Shape.Triangle -> shape.color = color
+        }
+
+        shape_interpretation_view.addShape(shape)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -130,8 +149,7 @@ class MainActivity : AppCompatActivity(), ShapeDrawnCallback {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.drawing -> {
-                //todo hide interpretation
-
+                shape_interpretation_view.visibility = View.GONE
                 cl_user_draw_input.visibility = View.VISIBLE
 
                 drawingMenuItem.isVisible = false
@@ -147,8 +165,9 @@ class MainActivity : AppCompatActivity(), ShapeDrawnCallback {
             }
 
             R.id.interpretation -> {
-                //todo show interpreation
+                shape_interpretation_view.visibility = View.VISIBLE
                 cl_user_draw_input.visibility = View.GONE
+
                 drawingMenuItem.isVisible = true
                 interpretationMenuItem.isVisible = false
                 showPaletteMenuItem.isVisible = false

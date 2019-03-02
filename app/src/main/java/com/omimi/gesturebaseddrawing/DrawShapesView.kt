@@ -76,7 +76,7 @@ class DrawShapesView @JvmOverloads constructor(
             DrawingShapeType.DrawingLine -> currShape = Shape.Line(touchX, touchY)
             DrawingShapeType.DrawingTriangle -> currShape = Shape.Triangle(touchX, touchY, touchX, touchX, touchY)
             DrawingShapeType.DrawingSquare -> currShape = Shape.Square(touchX, touchY, touchX, touchY)
-            DrawingShapeType.DrawingCircle -> currShape = Shape.Circle(touchX, touchY, 1f)
+            DrawingShapeType.DrawingCircle -> currShape = Shape.Circle(touchX, touchY, touchX, touchY)
         }
     }
 
@@ -121,20 +121,20 @@ class DrawShapesView @JvmOverloads constructor(
     }
 
     private fun updateSquareFromMovement(newX: Float, newY: Float, square: Shape.Square) {
-        if(newX < square.minX) {
-            square.minX = newX
+        if(newX < square.left) {
+            square.left = newX
         }
 
-        if(newX > square.maxX) {
-            square.maxX = newX
+        if(newX > square.right) {
+            square.right = newX
         }
 
-        if(newY < square.minY) {
-            square.minY = newY
+        if(newY < square.bottom) {
+            square.bottom = newY
         }
 
-        if(newY > square.maxY) {
-            square.maxY = newY
+        if(newY > square.top) {
+            square.top = newY
         }
     }
 
@@ -158,20 +158,20 @@ class DrawShapesView @JvmOverloads constructor(
     }
 
     private fun updateCircleFromMovement(newX: Float, newY: Float, circle: Shape.Circle) {
-        if(newX < circle.minX) {
-            circle.minX = newX
+        if(newX < circle.left) {
+            circle.left = newX
         }
 
-        if(newX > circle.maxX) {
-            circle.maxX = newX
+        if(newX > circle.right) {
+            circle.right = newX
         }
 
-        if(newY < circle.minY) {
-            circle.minY = newY
+        if(newY < circle.bottom) {
+            circle.bottom = newY
         }
 
-        if(newY > circle.maxY) {
-            circle.maxY = newY
+        if(newY > circle.top) {
+            circle.top = newY
         }
     }
 
