@@ -79,8 +79,21 @@ sealed class Shape {
     }
 
     class Triangle(var minX: Float = -1f, var minY: Float = -1f, var maxX: Float = -1f, var topPointX: Float = -1f, var topPointY: Float = -1f, var color: Int = Color.BLUE) : Shape() {
+        private val triangleAreaBuffer = 2f
+
         override fun pointInShape(x: Float, y: Float): Boolean {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            var a = area(minX, minY, maxX, minY, topPointX, topPointY)
+            var a1 = area(minX, minY, maxX, minY, x, y)
+            var a2 = area(minX, minY, x, y, topPointX, topPointY)
+            var a3 = area(x, y, maxX, minY, topPointX, topPointY)
+
+            var calculatedArea = a1 + a2 + a3
+
+            return a in calculatedArea-triangleAreaBuffer .. calculatedArea+triangleAreaBuffer
+        }
+
+        private fun area(x1: Float, y1: Float, x2: Float, y2: Float, x3: Float, y3: Float): Float {
+            return Math.abs((x1*(y2-y3) + x2*(y3-y1)+ x3*(y1-y2))/2.0).toFloat()
         }
     }
 }
