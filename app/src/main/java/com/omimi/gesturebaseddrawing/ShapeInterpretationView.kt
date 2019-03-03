@@ -78,11 +78,9 @@ class ShapeInterpretationView @JvmOverloads constructor(
     private fun drawCircle(circle: Shape.Circle) {
         shapePaint.color = circle.color
 
-        var xRadius = Math.abs(circle.left - circle.right) / 2
-        var centerX = Math.abs(circle.left + circle.right) / 2
-        var yRadius = Math.abs(circle.top - circle.bottom) / 2
-        var centerY = Math.abs(circle.top + circle.bottom) / 2
-        var largestRadius = Math.max(xRadius, yRadius)
+        var centerX = circle.getXCenter()
+        var centerY = circle.getYCenter()
+        var largestRadius = circle.getRadius()
 
         drawingCanvas.drawCircle(centerX, centerY, largestRadius, shapePaint)
     }

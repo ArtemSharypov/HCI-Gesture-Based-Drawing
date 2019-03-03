@@ -52,8 +52,29 @@ sealed class Shape {
     }
 
     class Circle(var left: Float = -1f, var top: Float = -1f, var right: Float = -1f, var bottom: Float = -1f, var color: Int = Color.BLUE) : Shape() {
+        fun getRadius(): Float {
+            var xRadius = Math.abs(left - right) / 2
+            var yRadius = Math.abs(top - bottom) / 2
+            return Math.max(xRadius, yRadius)
+        }
+
+        fun getXCenter(): Float {
+            return Math.abs(left + right) / 2
+        }
+
+        fun getYCenter(): Float {
+            return Math.abs(top + bottom) / 2
+        }
+
         override fun pointInShape(x: Float, y: Float): Boolean {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            var radius = getRadius()
+            var xCenter = getXCenter()
+            var yCenter = getYCenter()
+
+            var xDifference = x - xCenter
+            var yDifference= y - yCenter
+
+            return xDifference*xDifference + yDifference * yDifference < radius * radius
         }
     }
 
